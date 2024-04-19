@@ -5,31 +5,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const CalculateRequiredPercent = () => {
-  const [pastPercentage, setPastPercentage] = useState("");
-  const [pastWeightage, setPastWeightage] = useState("");
-  const [targetPercentage, setTargetPercentage] = useState("");
-  const [requiredPercentage, setRequiredPercentage] = useState("");
+  const [pastPercentage, setPastPercentage] = useState(0);
+  const [pastWeightage, setPastWeightage] = useState(0);
+  const [targetPercentage, setTargetPercentage] = useState(0);
+  const [requiredPercentage, setRequiredPercentage] = useState(0);
 
   const calculateRequiredPercentage = () => {
-    const pastPercentageValue = parseFloat(pastPercentage);
-    const pastWeightageValue = parseFloat(pastWeightage);
-    const targetPercentageValue = parseFloat(targetPercentage);
-
     if (
-      isNaN(pastPercentageValue) ||
-      isNaN(pastWeightageValue) ||
-      isNaN(targetPercentageValue)
+      isNaN(pastPercentage) ||
+      isNaN(pastWeightage) ||
+      isNaN(targetPercentage)
     ) {
-      setRequiredPercentage("0");
+      setRequiredPercentage(0);
       return;
     }
 
     const requiredPercentageValue: number =
-      (targetPercentageValue -
-        pastPercentageValue * (pastWeightageValue / 100)) /
-      (1 - pastWeightageValue / 100);
+      (targetPercentage - pastPercentage * (pastWeightage / 100)) /
+      (1 - pastWeightage / 100);
 
-    setRequiredPercentage(requiredPercentageValue.toFixed(2));
+    setRequiredPercentage(requiredPercentageValue);
   };
   return (
     <>
@@ -42,7 +37,7 @@ export const CalculateRequiredPercent = () => {
           type="number"
           value={pastPercentage}
           onChange={(e) => {
-            setPastPercentage(e.target.value);
+            setPastPercentage(e.target.valueAsNumber);
           }}
         />
       </div>
@@ -56,7 +51,7 @@ export const CalculateRequiredPercent = () => {
           type="number"
           value={pastWeightage}
           onChange={(e) => {
-            setPastWeightage(e.target.value);
+            setPastWeightage(e.target.valueAsNumber);
           }}
         />
       </div>
@@ -70,14 +65,16 @@ export const CalculateRequiredPercent = () => {
           type="number"
           value={targetPercentage}
           onChange={(e) => {
-            setTargetPercentage(e.target.value);
+            setTargetPercentage(e.target.valueAsNumber);
           }}
         />
       </div>
 
       <div className="my-8 grid grid-cols-4">
         <div className="col-span-3 space-y-2">
-          <p className="text-xl font-bold sm:text-2xl">Required Percentage:</p>
+          <p className="text-xl font-bold sm:text-2xl">
+            Required Percentage from Exam:
+          </p>
           <p className="text-lg font-bold sm:text-xl">{requiredPercentage}%</p>
         </div>
 
