@@ -6,32 +6,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const CalculateExpectedGrade = () => {
-  const [pastGrade, setPastGrade] = useState("");
-  const [pastWeightage, setPastWeightage] = useState("");
-  const [expectedExamGrade, setExpectedExamGrade] = useState("");
-  const [finalGrade, setFinalGrade] = useState("");
+  const [pastGrade, setPastGrade] = useState(0);
+  const [pastWeightage, setPastWeightage] = useState(0);
+  const [expectedExamGrade, setExpectedExamGrade] = useState(0);
+  const [finalGrade, setFinalGrade] = useState(0);
   const [gradeBand, setGradeBand] = useState("");
 
   const calculatedFinalGrade = () => {
-    const pastGradeValue = parseFloat(pastGrade);
-    const pastWeightageValue = parseFloat(pastWeightage);
-    const expectedExamGradeValue = parseFloat(expectedExamGrade);
-
-    if (
-      isNaN(pastGradeValue) ||
-      isNaN(pastWeightageValue) ||
-      isNaN(expectedExamGradeValue)
-    ) {
-      setFinalGrade("0");
+    if (isNaN(pastGrade) || isNaN(pastWeightage) || isNaN(expectedExamGrade)) {
+      setFinalGrade(0);
       return;
     }
 
     const finalGradeValue =
-      (pastGradeValue * pastWeightageValue +
-        expectedExamGradeValue * (100 - pastWeightageValue)) /
+      (pastGrade * pastWeightage + expectedExamGrade * (100 - pastWeightage)) /
       100;
 
-    setFinalGrade(finalGradeValue.toFixed(2));
+    setFinalGrade(finalGradeValue);
     setGradeBand(
       bands.find((band) => band.numericalEquivalent <= finalGradeValue)?.name ??
         ""
@@ -48,7 +39,7 @@ export const CalculateExpectedGrade = () => {
           type="number"
           value={pastGrade}
           onChange={(e) => {
-            setPastGrade(e.target.value);
+            setPastGrade(e.target.valueAsNumber);
           }}
         />
       </div>
@@ -61,7 +52,7 @@ export const CalculateExpectedGrade = () => {
           type="number"
           value={pastWeightage}
           onChange={(e) => {
-            setPastWeightage(e.target.value);
+            setPastWeightage(e.target.valueAsNumber);
           }}
         />
       </div>
@@ -72,7 +63,7 @@ export const CalculateExpectedGrade = () => {
           type="number"
           value={expectedExamGrade}
           onChange={(e) => {
-            setExpectedExamGrade(e.target.value);
+            setExpectedExamGrade(e.target.valueAsNumber);
           }}
         />
       </div>
